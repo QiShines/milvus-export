@@ -1,0 +1,23 @@
+name: Export Milvus v2.6.5
+
+on:
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Pull and Save Milvus Image
+        run: |
+          docker pull milvus/milvus:v2.6.5
+          docker save milvus/milvus:v2.6.5 -o milvus_v2.6.5.tar
+          ls -lh milvus_v2.6.5.tar
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: milvus-v2.6.5-tar
+          path: milvus_v2.6.5.tar
